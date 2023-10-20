@@ -16,6 +16,9 @@ public class Piece : MonoBehaviour
     private float moveTime;
     private float lockTime;
 
+    int linesCleared;
+    
+
     public void Initialize(Board board, Vector3Int position, TetrominoData data)
     {
         this.data = data;
