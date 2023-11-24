@@ -10,7 +10,8 @@ public class Board : MonoBehaviour
     public Vector2Int boardSize = new Vector2Int(10, 20);
     public Vector3Int spawnPosition = new Vector3Int(-1, 8, 0);
 
-    public RectInt Bounds {
+    public RectInt Bounds
+    {
         get
         {
             Vector2Int position = new Vector2Int(-boardSize.x / 2, -boardSize.y / 2);
@@ -23,7 +24,8 @@ public class Board : MonoBehaviour
         tilemap = GetComponentInChildren<Tilemap>();
         activePiece = GetComponentInChildren<Piece>();
 
-        for (int i = 0; i < tetrominoes.Length; i++) {
+        for (int i = 0; i < tetrominoes.Length; i++)
+        {
             tetrominoes[i].Initialize();
         }
     }
@@ -33,26 +35,7 @@ public class Board : MonoBehaviour
         SpawnPiece();
     }
 
-    public void SpawnPiece()
-    {
-        int random = Random.Range(0, tetrominoes.Length);
-        TetrominoData data = tetrominoes[random];
-
-        activePiece.Initialize(this, spawnPosition, data);
-
-        if (IsValidPosition(activePiece, spawnPosition)) {
-            Set(activePiece);
-        } else {
-            GameOver();
-        }
-    }
-
-    public void GameOver()
-    {
-        tilemap.ClearAllTiles();
-
-        // Do anything else you want on game over here..
-    }
+    // ... other code ...
 
     public void Set(Piece piece)
     {
@@ -63,14 +46,26 @@ public class Board : MonoBehaviour
         }
     }
 
-    public void Clear(Piece piece)
+    // ... other code ...
+
+
+    public void SpawnPiece()
     {
-        for (int i = 0; i < piece.cells.Length; i++)
+        int random = Random.Range(0, tetrominoes.Length);
+        TetrominoData data = tetrominoes[random];
+
+        activePiece.Initialize(this, spawnPosition, data);
+
+        if (IsValidPosition(activePiece, spawnPosition))
         {
-            Vector3Int tilePosition = piece.cells[i] + piece.position;
-            tilemap.SetTile(tilePosition, null);
+            Set(activePiece);
+        }
+        else
+        {
+            GameOver();
         }
     }
+    // ... other code ...
 
     public bool IsValidPosition(Piece piece, Vector3Int position)
     {
@@ -82,18 +77,32 @@ public class Board : MonoBehaviour
             Vector3Int tilePosition = piece.cells[i] + position;
 
             // An out of bounds tile is invalid
-            if (!bounds.Contains((Vector2Int)tilePosition)) {
+            if (!bounds.Contains((Vector2Int)tilePosition))
+            {
                 return false;
             }
 
             // A tile already occupies the position, thus invalid
-            if (tilemap.HasTile(tilePosition)) {
+            if (tilemap.HasTile(tilePosition))
+            {
                 return false;
             }
         }
 
         return true;
     }
+
+    // ... other code ...
+
+
+    public void GameOver()
+    {
+        tilemap.ClearAllTiles();
+        SoundManager.instance.PlayGameOverSound();
+        // Do anything else you want on game over here..
+    }
+
+    // ... other code ...
 
     public void ClearLines()
     {
@@ -105,13 +114,18 @@ public class Board : MonoBehaviour
         {
             // Only advance to the next row if the current is not cleared
             // because the tiles above will fall down when a row is cleared
-            if (IsLineFull(row)) {
+            if (IsLineFull(row))
+            {
                 LineClear(row);
-            } else {
+                SoundManager.instance.PlayTetrisClearSound();
+            }
+            else
+            {
                 row++;
             }
         }
     }
+    // ... other code ...
 
     public bool IsLineFull(int row)
     {
@@ -122,13 +136,15 @@ public class Board : MonoBehaviour
             Vector3Int position = new Vector3Int(col, row, 0);
 
             // The line is not full if a tile is missing
-            if (!tilemap.HasTile(position)) {
+            if (!tilemap.HasTile(position))
+            {
                 return false;
             }
         }
 
         return true;
     }
+    // ... other code ...
 
     public void LineClear(int row)
     {
@@ -156,5 +172,13 @@ public class Board : MonoBehaviour
             row++;
         }
     }
-
+    public void Clear(Piece piece)
+    {
+        for (int i = 0; i < piece.cells.Length; i++)
+        {
+            Vector3Int tilePosition = piece.cells[i] + piece.position;
+            tilemap.SetTile(tilePosition, null);
+        }
+    }
 }
+

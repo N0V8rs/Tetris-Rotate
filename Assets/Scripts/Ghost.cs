@@ -1,5 +1,5 @@
-using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine;
 
 public class Ghost : MonoBehaviour
 {
@@ -36,7 +36,8 @@ public class Ghost : MonoBehaviour
 
     private void Copy()
     {
-        for (int i = 0; i < cells.Length; i++) {
+        for (int i = 0; i < cells.Length; i++)
+        {
             cells[i] = trackingPiece.cells[i];
         }
     }
@@ -54,9 +55,12 @@ public class Ghost : MonoBehaviour
         {
             position.y = row;
 
-            if (mainBoard.IsValidPosition(trackingPiece, position)) {
+            if (mainBoard.IsValidPosition(trackingPiece, position))
+            {
                 this.position = position;
-            } else {
+            }
+            else
+            {
                 break;
             }
         }
@@ -72,5 +76,5 @@ public class Ghost : MonoBehaviour
             tilemap.SetTile(tilePosition, tile);
         }
     }
-
 }
+
