@@ -1,12 +1,8 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-
-
 public class Board : MonoBehaviour
 {
-    [SerializeField] AudioSource Clearlines;
-    [SerializeField] AudioSource GameOverSFX;
     public Tilemap tilemap { get; private set; }
     public Piece activePiece { get; private set; }
 
@@ -48,7 +44,6 @@ public class Board : MonoBehaviour
             Set(activePiece);
         } else {
             GameOver();
-            GameOverSFX.Play();
         }
     }
 
@@ -144,8 +139,6 @@ public class Board : MonoBehaviour
         {
             Vector3Int position = new Vector3Int(col, row, 0);
             tilemap.SetTile(position, null);
-            Clearlines.Play();
-            
         }
 
         // Shift every row above down one
