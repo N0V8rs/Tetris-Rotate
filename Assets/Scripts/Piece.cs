@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Piece : MonoBehaviour
 {
+    [SerializeField] AudioSource PlaceBlock;
     public Board board { get; private set; }
     public TetrominoData data { get; private set; }
     public Vector3Int[] cells { get; private set; }
@@ -116,6 +117,7 @@ public class Piece : MonoBehaviour
         board.Set(this);
         board.ClearLines();
         board.SpawnPiece();
+        PlaceBlock.Play();
     }
 
     private bool Move(Vector2Int translation)
