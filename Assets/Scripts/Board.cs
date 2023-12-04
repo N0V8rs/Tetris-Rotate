@@ -4,6 +4,7 @@ using UnityEngine.Tilemaps;
 public class Board : MonoBehaviour
 {
     [SerializeField] AudioSource Clearlines;
+    [SerializeField] AudioSource GameOverSFX;
     public Tilemap tilemap { get; private set; }
     public Piece activePiece { get; private set; }
 
@@ -51,6 +52,7 @@ public class Board : MonoBehaviour
     public void GameOver()
     {
         tilemap.ClearAllTiles();
+        GameOverSFX.Play();
     }
 
     public void Set(Piece piece)
