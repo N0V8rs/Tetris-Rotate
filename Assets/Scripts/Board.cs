@@ -3,6 +3,7 @@ using UnityEngine.Tilemaps;
 
 public class Board : MonoBehaviour
 {
+    [SerializeField] AudioSource Clearlines;
     public Tilemap tilemap { get; private set; }
     public Piece activePiece { get; private set; }
 
@@ -50,8 +51,6 @@ public class Board : MonoBehaviour
     public void GameOver()
     {
         tilemap.ClearAllTiles();
-
-        // Do anything else you want on game over here..
     }
 
     public void Set(Piece piece)
@@ -139,6 +138,7 @@ public class Board : MonoBehaviour
         {
             Vector3Int position = new Vector3Int(col, row, 0);
             tilemap.SetTile(position, null);
+            Clearlines.Play(); // Might work
         }
 
         // Shift every row above down one
